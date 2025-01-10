@@ -58,40 +58,39 @@
         </tr>
     </table>
 
-    <script>
-        // Fonction pour recalculer les coordonnées en fonction de la taille actuelle de l'image
-        function adjustMapCoords() {
-            const image = document.getElementById('dynamic-image');
-            const areas = document.querySelectorAll('area');
+<script>
+    function adjustMapCoords() {
+        const image = document.getElementById('dynamic-image');
+        const areas = document.querySelectorAll('area');
 
-            // Taille originale de l'image (en pixels)
-            const originalWidth = 1200; 
-            const originalHeight = 400; // Remplacez par la hauteur réelle de votre image
+        // Dimensions originales de l'image (exactes)
+        const originalWidth = 1200; // Remplacez par la largeur réelle
+        const originalHeight = 400; // Remplacez par la hauteur réelle
 
-            // Taille actuelle de l'image
-            const currentWidth = image.clientWidth;
-            const currentHeight = image.clientHeight;
+        // Dimensions actuelles de l'image affichée
+        const currentWidth = image.clientWidth || image.offsetWidth;
+        const currentHeight = image.clientHeight || image.offsetHeight;
 
-            // Ratio de redimensionnement
-            const widthRatio = currentWidth / originalWidth;
-            const heightRatio = currentHeight / originalHeight;
+        // Calcul des ratios
+        const widthRatio = currentWidth / originalWidth;
+        const heightRatio = currentHeight / originalHeight;
 
-            // Ajuster les coordonnées
-            areas.forEach(area => {
-                const originalCoords = area.getAttribute('data-original-coords').split(',').map(Number);
-                const adjustedCoords = originalCoords.map((coord, index) => {
-                    return index % 2 === 0 
-                        ? Math.round(coord * widthRatio) // Ajuste x
-                        : Math.round(coord * heightRatio); // Ajuste y
-                });
-                area.setAttribute('coords', adjustedCoords.join(','));
+        // Réajustement des coordonnées
+        areas.forEach(area => {
+            const originalCoords = area.getAttribute('data-original-coords').split(',').map(Number);
+            const adjustedCoords = originalCoords.map((coord, index) => {
+                return index % 2 === 0 
+                    ? Math.round(coord * widthRatio) // Ajuste x
+                    : Math.round(coord * heightRatio); // Ajuste y
             });
-        }
+            area.setAttribute('coords', adjustedCoords.join(','));
+        });
+    }
 
-        // Ajuster les coordonnées après le chargement de l'image
-        window.onload = adjustMapCoords;
-        window.onresize = adjustMapCoords; // Recalculez lors du redimensionnement
-    </script>
+    // Ajustement au chargement de la page et redimensionnement
+    window.addEventListener('load', adjustMapCoords);
+    window.addEventListener('resize', adjustMapCoords);
+</script>
 </body>
 </html>
 
