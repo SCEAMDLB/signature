@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signature Email</title>
+    <style>
+        img {
+            width: 100%;
+            max-width: 100%;
+            height: auto; /* Pour conserver les proportions */
+        }
+    </style>
+</head>
+<body>
+    <table style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5;">
+        <tr>
+            <td>
+                <!-- Image avec une carte d'image associée -->
+                <img id="dynamic-image" 
+                     src="https://raw.githubusercontent.com/SCEAMDLB/signature/refs/heads/main/SCEA%20du%20Moulin%20de%20la%20Barne.gif" 
+                     alt="SCEA du Moulin de la Barne" 
+                     usemap="#image-map">
+                
+                <!-- Définition de la carte d'image -->
+                <map name="image-map">
+                    <!-- Zone cliquable pour Daniel -->
+                    <area target="_blank" alt="Daniel" title="Daniel" 
+                          href="tel:+33672648203" 
+                          data-original-coords="443,170,97,197" shape="rect">
+                    
+                    <!-- Zone cliquable pour Isabelle -->
+                    <area target="_blank" alt="Isabelle" title="Isabelle" 
+                          href="tel:+33783952712" 
+                          data-original-coords="96,237,472,213" shape="rect">
+                    
+                    <!-- Zone cliquable pour Louis -->
+                    <area target="_blank" alt="Louis" title="Louis" 
+                          href="tel:+33612914320" 
+                          data-original-coords="490,169,822,198" shape="rect">
+                    
+                    <!-- Zone cliquable pour la Ligne Fixe -->
+                    <area target="_blank" alt="Ligne Fixe" title="Ligne Fixe" 
+                          href="tel:+33321939391" 
+                          data-original-coords="487,213,892,242" shape="rect">
+                    
+                    <!-- Zone cliquable pour l'e-mail -->
+                    <area target="_blank" alt="Mail" title="Mail" 
+                          href="mailto:ferme@moulindelabarne.fr" 
+                          data-original-coords="500,310,34,272" shape="rect">
+                    
+                    <!-- Zone cliquable pour la localisation sur Google Maps -->
+                    <area target="_blank" alt="Maps" title="Maps" 
+                          href="https://www.google.com/maps/search/?api=1&query=21+RD+943,+62120+Campagne-Lès-Wardrecques,+France" 
+                          data-original-coords="33,340,851,379" shape="rect">
+                </map>
+            </td>
+        </tr>
+    </table>
+
+<script>
+    function adjustMapCoords() {
+        const image = document.getElementById('dynamic-image');
+        const areas = document.querySelectorAll('area');
+
+        // Dimensions originales de l'image (exactes)
+        const originalWidth = 1200; // Remplacez par la largeur réelle
+        const originalHeight = 400; // Remplacez par la hauteur réelle
+
+        // Dimensions actuelles de l'image affichée
+        const currentWidth = image.clientWidth || image.offsetWidth;
+        const currentHeight = image.clientHeight || image.offsetHeight;
+
+        // Calcul des ratios
+        const widthRatio = currentWidth / originalWidth;
+        const heightRatio = currentHeight / originalHeight;
+
+        // Réajustement des coordonnées
+        areas.forEach(area => {
+            const originalCoords = area.getAttribute('data-original-coords').split(',').map(Number);
+            const adjustedCoords = originalCoords.map((coord, index) => {
+                return index % 2 === 0 
+                    ? Math.round(coord * widthRatio) // Ajuste x
+                    : Math.round(coord * heightRatio); // Ajuste y
+            });
+            area.setAttribute('coords', adjustedCoords.join(','));
+        });
+    }
+
+    // Ajustement au chargement de la page et redimensionnement
+    window.addEventListener('load', adjustMapCoords);
+    window.addEventListener('resize', adjustMapCoords);
+</script>
+</body>
+</html>
